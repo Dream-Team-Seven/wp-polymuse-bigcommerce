@@ -32,18 +32,17 @@ if (in_array('bigcommerce/bigcommerce.php', apply_filters('active_plugins', get_
         // Add 3D model viewer code here
         $model_url = "https://firebasestorage.googleapis.com/v0/b/polymuse-68692.appspot.com/o/models%2F20250205124059197%2FSheenChair.glb?alt=media&token=19402c2b-bb92-499e-83bf-d49c263bb09c";
         $model_thumbnail_url = plugins_url('3d-model-thumbnail.png', __FILE__);
-        ?>
-        <div class="bc-product-gallery__image polymuse-model-viewer">
-            <model-viewer src="<?php echo esc_url($model_url); ?>"
-                alt="3D model of <?php echo esc_attr($product->get_name()); ?>" auto-rotate camera-controls ar
-                ar-modes="webxr scene-viewer quick-look" style="width: 100%; height: 100%;"></model-viewer>
-        </div>
-        <?php
-        $html .= ob_get_clean();
+        $model_viewer_html = '<div class="bc-product-gallery__image polymuse-model-viewer">
+        <model-viewer src="' . esc_url($model_url) . '" alt="3D model of ' . esc_attr($product->get_name()) . '" auto-rotate camera-controls ar ar-modes="webxr scene-viewer quick-look" style="width: 100%; height: 100%;"></model-viewer>
+    </div>';
+        // Insert the 3D model viewer code after the product gallery images
+        $gallery_images_pattern = '/<div class="bc-product-gallery__images"(.*?)>/s';
+        $html = preg_replace_callback($gallery_images_pattern, function ($matches) use ($model_viewer_html) {
+            return $matches[0] . $model_viewer_html;
+        }, $html);
         return $html;
     }
     add_filter('bigcommerce/template/product/single', 'polymuse_modify_single_product_template', 10, 2);
-
     function add_buttons_container()
     {
         global $product;
