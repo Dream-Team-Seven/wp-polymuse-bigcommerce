@@ -94,6 +94,7 @@ if (in_array('bigcommerce/bigcommerce.php', apply_filters('active_plugins', get_
     // Enqueue styles and scripts
     function polymuse_enqueue_assets()
     {
+        error_log('polymuse_enqueue_assets called');
         wp_enqueue_style('polymuse-styles', plugins_url('styles.css', __FILE__));
         wp_enqueue_script('polymuse-script', plugins_url('polymuse.js', __FILE__), array('jquery'), '1.0', true);
     }
