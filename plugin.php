@@ -66,7 +66,7 @@ if (in_array('bigcommerce/bigcommerce.php', apply_filters('active_plugins', get_
             // }
         // }
 
-        return $html;
+        // return $html;
     }
     add_filter('bigcommerce/template/product/single', 'polymuse_add_model_and_thumbnail_to_gallery', 10, 2);
 
