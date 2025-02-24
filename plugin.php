@@ -16,6 +16,7 @@ if (!defined('ABSPATH')) {
 // Check if bigcommerce is active
 if (in_array('bigcommerce/bigcommerce.php', apply_filters('active_plugins', get_option('active_plugins')))) {
 
+    error_log('BigCommerce plugin is active');
     // Add 3D model to product gallery
 
     function polymuse_add_model_and_thumbnail_to_gallery($html, $attachment_id)
