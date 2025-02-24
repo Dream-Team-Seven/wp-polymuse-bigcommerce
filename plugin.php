@@ -103,7 +103,7 @@ if (in_array('bigcommerce/bigcommerce.php', apply_filters('active_plugins', get_
                 $model_viewer .= 'data-thumb-alt="3D Model" ';
                 $model_viewer .= 'data-thumb-srcset="' . esc_url($model_thumbnail_url) . ' 100w" ';
                 $model_viewer .= 'data-thumb-sizes="(max-width: 100px) 100vw, 100px" ';
-                $model_viewer .= 'class="woocommerce-product-gallery__image polymuse-model-viewer" ">';
+                $model_viewer .= 'class="bc-product-gallery__image polymuse-model-viewer" ">';
                 $model_viewer .= '<model-viewer src="' . esc_url($model_url) . '" alt="3D model of ' . esc_attr($product->get_name()) . '" auto-rotate camera-controls ar ar-modes="webxr scene-viewer quick-look" style="width: 100%; height: 100%;"></model-viewer>';
                 $model_viewer .= '</div>';
 
@@ -111,7 +111,7 @@ if (in_array('bigcommerce/bigcommerce.php', apply_filters('active_plugins', get_
                 // with out this when you select a variant product  there will be a place holder image out of place
                 // The down side is then the main product image will not show up in the carousel or thumb nail
                 // A benefit is that when you select a variant the main image will not change and show the model viewer
-                $html = '<style>.woocommerce-product-gallery__image--placeholder:first-child { display: none; }</style>';
+                $html = '<style>.bc-product-gallery__image--placeholder:first-child { display: none; }</style>';
                 error_log('Modified HTML: ' . $html);
                 return $model_viewer . $html;
             }
