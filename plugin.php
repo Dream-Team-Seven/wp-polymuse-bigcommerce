@@ -27,10 +27,10 @@ if (in_array('bigcommerce/bigcommerce.php', apply_filters('active_plugins', get_
         error_log('Attachment ID: ' . $attachment_id);
         error_log('HTML received: ' . $html);
 
-        if (!$product) {
-            error_log('No product found');
-            return $html;
-        }
+        // if (!$product) {
+        //     error_log('No product found');
+        //     return $html;
+        // }
 
         // $model_url = get_post_meta($product->get_id(), '_3d_model_url', true);
         $model_url = "https://firebasestorage.googleapis.com/v0/b/polymuse-68692.appspot.com/o/models%2F20250205124059197%2FSheenChair.glb?alt=media&token=19402c2b-bb92-499e-83bf-d49c263bb09c";
