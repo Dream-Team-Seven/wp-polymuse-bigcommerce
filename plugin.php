@@ -13,60 +13,8 @@ if (!defined('ABSPATH')) {
     exit; // Exit if accessed directly
 }
 
-// Check if WooCommerce is active
+// Check if bigcommerce is active
 if (in_array('bigcommerce/bigcommerce.php', apply_filters('active_plugins', get_option('active_plugins')))) {
-
-    // Add theme warning
-    function my_polymuse_theme_warning_plugin_init()
-    {
-        $current_theme = get_template();
-        $suboptimal_themes = array(
-            'oceanwp',
-        );
-
-        if (in_array($current_theme, $suboptimal_themes)) {
-            add_action('admin_notices', 'my_polymuse_plugin_styling_warning');
-        }
-    }
-
-    function my_polymuse_plugin_styling_warning()
-    {
-        ?>
-        <div class="is-dismissible notice notice-warning">
-            <p>
-                <strong>My Polymuse Plugin:</strong>
-                While this plugin is functional with the current theme
-                (<?php echo esc_html(get_template()); ?>), its appearance may not be optimal.
-                Some styling adjustments might be necessary for the best visual experience.
-            </p>
-        </div>
-        <?php
-    }
-    // add_action('plugins_loaded', 'my_polymuse_theme_warning_plugin_init');
-
-    // Add custom field to product editor
-    function polymuse_custom_field()
-    {
-        woocommerce_wp_text_input(
-            array(
-                'id' => '_3d_model_url',
-                'label' => '3D Model URL',
-                'description' => 'Enter the URL of the 3D model file (e.g., .glb or .gltf)',
-                'desc_tip' => true,
-            )
-        );
-    }
-    // add_action('woocommerce_product_options_general_product_data', 'polymuse_custom_field');
-
-    // Save custom field data
-    function polymuse_save_custom_field($post_id)
-    {
-        $model_url = $_POST['_3d_model_url'];
-        if (!empty($model_url)) {
-            update_post_meta($post_id, '_3d_model_url', esc_url($model_url));
-        }
-    }
-    // add_action('woocommerce_process_product_meta', 'polymuse_save_custom_field');
 
     // Add 3D model to product gallery
 
