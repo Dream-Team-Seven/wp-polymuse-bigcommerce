@@ -68,7 +68,7 @@ if (in_array('bigcommerce/bigcommerce.php', apply_filters('active_plugins', get_
 
         return $html;
     }
-    add_filter('bigcommerce/product/image/gallery', 'polymuse_add_model_and_thumbnail_to_gallery', 10, 4);
+    add_filter('bigcommerce/product/image/thumbnail', 'polymuse_add_model_and_thumbnail_to_gallery', 99, 4);
 
     function add_buttons_container()
     {
