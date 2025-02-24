@@ -21,6 +21,7 @@ if (in_array('bigcommerce/bigcommerce.php', apply_filters('active_plugins', get_
 
     function polymuse_modify_single_product_template($html, $product_id)
     {
+        global $product;
         // Add 3D model viewer code here
         $model_url = "https://firebasestorage.googleapis.com/v0/b/polymuse-68692.appspot.com/o/models%2F20250205124059197%2FSheenChair.glb?alt=media&token=19402c2b-bb92-499e-83bf-d49c263bb09c";
         $model_thumbnail_url = plugins_url('3d-model-thumbnail.png', __FILE__);
