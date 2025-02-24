@@ -43,9 +43,9 @@ if (in_array('bigcommerce/bigcommerce.php', apply_filters('active_plugins', get_
             error_log('Model Thumbnail URL: ' . $model_thumbnail_url);
 
             // Check if this is the first image in the gallery
-            static $first_image = true;
+            // static $first_image = true;
 
-            if ($first_image) {
+            // if ($first_image) {
                 $first_image = false;
                 // Create the model viewer div
                 $model_viewer = '<div data-thumb="' . esc_url($model_thumbnail_url) . '" ';
@@ -60,10 +60,10 @@ if (in_array('bigcommerce/bigcommerce.php', apply_filters('active_plugins', get_
                 // with out this when you select a variant product  there will be a place holder image out of place
                 // The down side is then the main product image will not show up in the carousel or thumb nail
                 // A benefit is that when you select a variant the main image will not change and show the model viewer
-                $html = '<style>.bc-product-gallery__image--placeholder:first-child { display: none; }</style>';
+                // $html = '<style>.bc-product-gallery__image--placeholder:first-child { display: none; }</style>';
                 error_log('Modified HTML: ' . $html);
                 return $model_viewer . $html;
-            }
+            // }
         // }
 
         return $html;
