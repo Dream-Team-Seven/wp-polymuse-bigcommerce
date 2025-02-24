@@ -70,6 +70,13 @@ if (in_array('bigcommerce/bigcommerce.php', apply_filters('active_plugins', get_
     }
     add_filter('bigcommerce/product/image/thumbnail', 'polymuse_add_model_and_thumbnail_to_gallery', 99, 4);
 
+    function log_product_card_template() {
+        $template = BigCommerce TemplatesFactory::get_template('product-card.php');
+        $template_data = $template->get_data();
+        error_log('Product Card Template Data:');
+        error_log(print_r($template_data, true));
+    }
+    add_action('bigcommerce_before_template_product_card', 'log_product_card_template');
     function add_buttons_container()
     {
         global $product;
