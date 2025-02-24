@@ -34,7 +34,7 @@ if (in_array('bigcommerce/bigcommerce.php', apply_filters('active_plugins', get_
         $model_thumbnail_url = plugins_url('3d-model-thumbnail.png', __FILE__);
         ?>
         <div class="polymuse-custom-div">
-            <!-- Your custom content here -->
+            <h1>hey look at me</h1>
         </div>
         <?php
         $html = ob_get_clean() . $html;
