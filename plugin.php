@@ -19,56 +19,22 @@ if (in_array('bigcommerce/bigcommerce.php', apply_filters('active_plugins', get_
     error_log('BigCommerce plugin is active');
     // Add 3D model to product gallery
 
-    function polymuse_add_model_and_thumbnail_to_gallery($html, $attachment_id)
+    function polymuse_modify_single_product_template($html, $product_id)
     {
-        global $product;
-
-        // Debug logging
-        error_log('polymuse_add_model_and_thumbnail_to_gallery called');
-        error_log('Attachment ID: ' . $attachment_id);
-        error_log('HTML received: ' . $html);
-
-        // if (!$product) {
-        //     error_log('No product found');
-        //     return $html;
-        // }
-
-        // $model_url = get_post_meta($product->get_id(), '_3d_model_url', true);
+        // Add 3D model viewer code here
         $model_url = "https://firebasestorage.googleapis.com/v0/b/polymuse-68692.appspot.com/o/models%2F20250205124059197%2FSheenChair.glb?alt=media&token=19402c2b-bb92-499e-83bf-d49c263bb09c";
-        error_log('Model URL: ' . $model_url);
-
-        // if (!empty($model_url)) {
-            // Create thumbnail URL for the 3D model
-            $model_thumbnail_url = plugins_url('3d-model-thumbnail.png', __FILE__);
-            error_log('Model Thumbnail URL: ' . $model_thumbnail_url);
-
-            // Check if this is the first image in the gallery
-            // static $first_image = true;
-
-            // if ($first_image) {
-                $first_image = false;
-                // Create the model viewer div
-                $model_viewer = '<div data-thumb="' . esc_url($model_thumbnail_url) . '" ';
-                $model_viewer .= 'data-thumb-alt="3D Model" ';
-                $model_viewer .= 'data-thumb-srcset="' . esc_url($model_thumbnail_url) . ' 100w" ';
-                $model_viewer .= 'data-thumb-sizes="(max-width: 100px) 100vw, 100px" ';
-                $model_viewer .= 'class="bc-product-gallery__image polymuse-model-viewer" ">';
-                $model_viewer .= '<model-viewer src="' . esc_url($model_url) . '" alt="3D model of ' . esc_attr($product->get_name()) . '" auto-rotate camera-controls ar ar-modes="webxr scene-viewer quick-look" style="width: 100%; height: 100%;"></model-viewer>';
-                $model_viewer .= '</div>';
-
-                // Hide default this will make selecting variants work properly
-                // with out this when you select a variant product  there will be a place holder image out of place
-                // The down side is then the main product image will not show up in the carousel or thumb nail
-                // A benefit is that when you select a variant the main image will not change and show the model viewer
-                // $html = '<style>.bc-product-gallery__image--placeholder:first-child { display: none; }</style>';
-                error_log('Modified HTML: ' . $html);
-                return $model_viewer . $html;
-            // }
-        // }
-
-        // return $html;
+        $model_thumbnail_url = plugins_url('3d-model-thumbnail.png', __FILE__);
+        ?>
+        <div class="bc-product-gallery__image polymuse-model-viewer">
+            <model-viewer src="<?php echo esc_url($model_url); ?>"
+                alt="3D model of <?php echo esc_attr($product->get_name()); ?>" auto-rotate camera-controls ar
+                ar-modes="webxr scene-viewer quick-look" style="width: 100%; height: 100%;"></model-viewer>
+        </div>
+        <?php
+        $html .= ob_get_clean();
+        return $html;
     }
-    add_filter('bigcommerce/template/product/single', 'polymuse_add_model_and_thumbnail_to_gallery', 10, 2);
+    add_filter('bigcommerce/template/product/single', 'polymuse_modify_single_product_template', 10, 2);
 
     function add_buttons_container()
     {
