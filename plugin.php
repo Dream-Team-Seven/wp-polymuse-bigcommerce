@@ -29,33 +29,16 @@ if (in_array('bigcommerce/bigcommerce.php', apply_filters('active_plugins', get_
     function polymuse_modify_single_product_template($html, $product_id)
     {
         global $product;
-        // Add 3D model viewer code here
-        $model_url = "https://firebasestorage.googleapis.com/v0/b/polymuse-68692.appspot.com/o/models%2F20250205124059197%2FSheenChair.glb?alt=media&token=19402c2b-bb92-499e-83bf-d49c263bb09c";
-        $model_thumbnail_url = plugins_url('3d-model-thumbnail.png', __FILE__);
-        ?>
-        <div class="polymuse-custom-div">
-            <h1>hey look at me</h1>
-        </div>
-        <?php
-        $html = ob_get_clean() . $html;
-        error_log('polymuse_modify_single_product_template called html : ' . $html);
+        // Retrieve the default product content
+        $default_content = apply_filters('bigcommerce/template/product/single', '', $product_id);
+
+        // Add your custom div to the default content
+        $custom_div = '<div class="polymuse-custom-div"><h1>hey look at me</h1></div>';
+        $html = $default_content . $custom_div;
+
         return $html;
     }
     add_filter('bigcommerce/template/product/single', 'polymuse_modify_single_product_template', 10, 2);
-    
-    function add_buttons_container()
-    {
-        global $product;
-
-        if (is_product()) {
-
-            // Create a container div for variant options
-            ?>
-            <div id="variant-options-container"></div>
-            <?php
-        }
-    }
-    add_action('bc_before_add_to_cart_form', 'add_buttons_container');
 
 
     // Enqueue styles and scripts
