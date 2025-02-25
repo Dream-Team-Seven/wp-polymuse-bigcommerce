@@ -29,7 +29,7 @@ if (in_array('bigcommerce/bigcommerce.php', apply_filters('active_plugins', get_
     {
         // Only run on BigCommerce product page
         if (is_product()) {
-            // Get the model URL dynamically (can be replaced with the actual dynamic data)
+            // Get the model URL dynamically (replace with actual dynamic data if needed)
             $model_url = "https://firebasestorage.googleapis.com/v0/b/polymuse-68692.appspot.com/o/models%2F20250205124059197%2FSheenChair.glb?alt=media&token=19402c2b-bb92-499e-83bf-d49c263bb09c";
 
             // Get the model thumbnail URL dynamically (adjust as necessary)
@@ -59,8 +59,8 @@ if (in_array('bigcommerce/bigcommerce.php', apply_filters('active_plugins', get_
                 function ($matches) use ($model_url) {
                     // Replace the main product image with the 3D model viewer
                     return '<div class="swiper-slide bc-product-gallery__image-slide swiper-slide-active" style="width: 357px; opacity: 1; transform: translate3d(0px, 0px, 0px);">
-                                <model-viewer src="' . esc_url($model_url) . '" alt="3D model" auto-rotate camera-controls ar ar-modes="webxr scene-viewer quick-look" style="width: 100%; height: 100%;"></model-viewer>
-                            </div>';
+                            <model-viewer src="' . esc_url($model_url) . '" alt="3D model" auto-rotate camera-controls ar ar-modes="webxr scene-viewer quick-look" style="width: 100%; height: 100%;"></model-viewer>
+                        </div>';
                 },
                 $content
             );
@@ -71,8 +71,8 @@ if (in_array('bigcommerce/bigcommerce.php', apply_filters('active_plugins', get_
                 function ($matches) use ($model_thumbnail_url) {
                     // Add a new thumbnail button for the 3D model
                     $thumb_button = '<button class="bc-product-gallery__thumb-slide swiper-slide" data-js="bc-gallery-thumb-trigger" data-index="0" aria-label="View 3D Model">
-                                        <img src="' . esc_url($model_thumbnail_url) . '" alt="3D Model Thumbnail">
-                                      </button>';
+                                    <img src="' . esc_url($model_thumbnail_url) . '" alt="3D Model Thumbnail">
+                                  </button>';
 
                     // Return the updated slider content
                     return $matches[0] . $thumb_button;
@@ -84,6 +84,7 @@ if (in_array('bigcommerce/bigcommerce.php', apply_filters('active_plugins', get_
         return $content;
     }
     add_filter('the_content', 'polymuse_modify_single_product_template', 20);
+
 
     // Enqueue styles and scripts
     function polymuse_enqueue_assets()
