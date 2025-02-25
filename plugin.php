@@ -25,27 +25,64 @@ if (in_array('bigcommerce/bigcommerce.php', apply_filters('active_plugins', get_
     }
     add_action('wp_head', 'polymuse_add_model_viewer_script');
 
-    function polymuse_add_thumbnail_slide($content)
-    {
+    function polymuse_modify_bigcommerce_gallery() {
+        // Check if we're on a single product page
         if (is_product()) {
+            // Get the model URL and thumbnail URL
+            $model_url = "https://firebasestorage.googleapis.com/v0/b/polymuse-68692.appspot.com/o/models%2F20250205124059197%2FSheenChair.glb?alt=media&token=19402c2b-bb92-499e-83bf-d49c263bb09c";
             $model_thumbnail_url = "https://yiteg94znhby2sle.public.blob.vercel-storage.com/www.google.com-ZjBvSos6qNeXxXTmKQtoj50Owjx49O.png";
-
-            $new_slide_html = '<div class="swiper-slide bc-product-gallery__image-slide swiper-slide-active" data-index="0" style="width: 357px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;">
-                                    <img src="' . esc_url($model_thumbnail_url) . '" alt="3D Model Thumbnail" srcset="' . esc_url($model_thumbnail_url) . ' 273w, ' . esc_url($model_thumbnail_url) . ' 150w, ' . esc_url($model_thumbnail_url) . ' 86w, ' . esc_url($model_thumbnail_url) . ' 167w">
+    
+            // Define the paths
+            $plugin_dir = plugin_dir_path(__FILE__);
+            $theme_dir = get_stylesheet_directory();
+            $override_dir = $theme_dir . '/bigcommerce/templates/public/components/products';
+            $original_template = WP_PLUGIN_DIR . '/bigcommerce/templates/public/components/products/product-gallery.php';
+            $override_template = $override_dir . '/product-gallery.php';
+    
+            // Create the override directory if it doesn't exist
+            if (!is_dir($override_dir)) {
+                wp_mkdir_p($override_dir);
+            }
+    
+            // Copy the original template if it doesn't exist in the override directory
+            if (!file_exists($override_template) && file_exists($original_template)) {
+                copy($original_template, $override_template);
+            }
+    
+            // Modify the template
+            if (file_exists($override_template)) {
+                $template_content = file_get_contents($override_template);
+    
+                // Inject the 3D model viewer and thumbnail
+                $viewer_html = '<div class="swiper-slide bc-product-gallery__image-slide" data-index="0">
+                                    <model-viewer src="' . esc_url($model_url) . '" alt="3D model" auto-rotate camera-controls ar ar-modes="webxr scene-viewer quick-look" style="width: 100%; height: 100%;"></model-viewer>
                                 </div>';
-
-            // Find the swiper-wrapper and insert the new slide
-            $content = preg_replace(
-                '/<div class="swiper-wrapper" data-js="" style="transition-duration: 0ms;">/',
-                '<div class="swiper-wrapper" data-js="" style="transition-duration: 0ms;">' . $new_slide_html,
-                $content,
-                1 // Limit to the first match
-            );
+    
+                $thumbnail_html = '<button class="bc-product-gallery__thumb-slide swiper-slide" data-js="bc-gallery-thumb-trigger" data-index="0" aria-label="View 3D Model">
+                                        <img src="' . esc_url($model_thumbnail_url) . '" alt="3D Model Thumbnail">
+                                    </button>';
+    
+                // Insert the viewer and thumbnail into the content
+                $template_content = preg_replace(
+                    '/<div class="swiper-wrapper" data-js="bc-product-image-zoom">/',
+                    '<div class="swiper-wrapper" data-js="bc-product-image-zoom">' . $viewer_html,
+                    $template_content,
+                    1
+                );
+    
+                $template_content = preg_replace(
+                    '/<div class="swiper-wrapper bc-product-gallery__thumbs">/',
+                    '<div class="swiper-wrapper bc-product-gallery__thumbs">' . $thumbnail_html,
+                    $template_content,
+                    1
+                );
+    
+                // Save the modified template
+                file_put_contents($override_template, $template_content);
+            }
         }
-        return $content;
     }
-
-    add_filter('the_content', 'polymuse_add_thumbnail_slide', 20);
+    add_action('wp', 'polymuse_modify_bigcommerce_gallery');
 
 
     // Enqueue styles and scripts
