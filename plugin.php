@@ -35,25 +35,23 @@ if (in_array('bigcommerce/bigcommerce.php', apply_filters('active_plugins', get_
             // Get the model thumbnail URL (adjust accordingly)
             $model_thumbnail_url = "https://example.com/thumbnail.jpg"; // Replace with dynamic thumbnail URL
 
-            // Check if the content contains the main image div (swiper-slide)
+            // Check if the content contains the swiper-slide with the product image
             if (strpos($content, 'class="swiper-slide bc-product-gallery__image-slide"') !== false) {
-                // Prepare the HTML structure for the 3D model viewer
-                $model_viewer = '<div data-thumb="' . esc_url($model_thumbnail_url) . '" ';
-                $model_viewer .= 'data-thumb-alt="3D Model" ';
-                $model_viewer .= 'data-thumb-srcset="' . esc_url($model_thumbnail_url) . ' 100w" ';
-                $model_viewer .= 'data-thumb-sizes="(max-width: 100px) 100vw, 100px" ';
-                $model_viewer .= 'class="polymuse-model-viewer" >';
-                $model_viewer .= '<model-viewer src="' . esc_url($model_url) . '" alt="3D model" auto-rotate camera-controls ar ar-modes="webxr scene-viewer quick-look" style="width: 100%; height: 100%;"></model-viewer>';
-                $model_viewer .= '</div>';
+                // Prepare the HTML structure for the 3D model viewer as an image slide
+                $model_slide = '<div class="swiper-slide bc-product-gallery__image-slide">';
+                $model_slide .= '<img src="' . esc_url($model_thumbnail_url) . '" alt="3D model" class="model-thumbnail">';
+                $model_slide .= '<model-viewer src="' . esc_url($model_url) . '" alt="3D Model" auto-rotate camera-controls ar ar-modes="webxr scene-viewer quick-look" style="width: 100%; height: 500px;"></model-viewer>';
+                $model_slide .= '</div>';
 
-                // Add the model viewer inside the swiper-slide div (after the main image)
-                $content = preg_replace('/(<div class="swiper-slide bc-product-gallery__image-slide[^>]*>.*?<\/div>)/', '$1' . $model_viewer, $content);
+                // Add the 3D model slide in the swiper-wrapper
+                $content = preg_replace('/(<div class="swiper-wrapper"[^>]*>)/', '$1' . $model_slide, $content);
             }
         }
 
         return $content;
     }
     add_filter('the_content', 'polymuse_modify_single_product_template', 20);
+
 
     // Enqueue styles and scripts
     function polymuse_enqueue_assets()
