@@ -25,33 +25,38 @@ if (in_array('bigcommerce/bigcommerce.php', apply_filters('active_plugins', get_
     }
     add_action('wp_head', 'polymuse_add_model_viewer_script');
 
-    function polymuse_modify_single_product_template($content)
-    {
+    function polymuse_modify_single_product_template($content) {
         // Only run on BigCommerce product page
         if (is_product()) {
             // Get the model URL (you can dynamically fetch this based on product data)
             $model_url = "https://firebasestorage.googleapis.com/v0/b/polymuse-68692.appspot.com/o/models%2F20250205124059197%2FSheenChair.glb?alt=media&token=19402c2b-bb92-499e-83bf-d49c263bb09c";
-
+            
             // Get the model thumbnail URL (adjust accordingly)
-            $model_thumbnail_url = "https://example.com/thumbnail.jpg"; // Replace with dynamic thumbnail URL
-
-            // Check if the content contains the swiper-slide with the product image
-            if (strpos($content, 'class="swiper-slide bc-product-gallery__image-slide"') !== false) {
-                // Prepare the HTML structure for the 3D model viewer as an image slide
-                $model_slide = '<div class="swiper-slide bc-product-gallery__image-slide">';
-                $model_slide .= '<img src="' . esc_url($model_thumbnail_url) . '" alt="3D model" class="model-thumbnail">';
-                $model_slide .= '<model-viewer src="' . esc_url($model_url) . '" alt="3D Model" auto-rotate camera-controls ar ar-modes="webxr scene-viewer quick-look" style="width: 100%; height: 500px;"></model-viewer>';
-                $model_slide .= '</div>';
-
-                // Add the 3D model slide in the swiper-wrapper
-                $content = preg_replace('/(<div class="swiper-wrapper"[^>]*>)/', '$1' . $model_slide, $content);
-            }
+            $model_thumbnail_url = "https://example.com/thumbnail.jpg"; // Replace this with the dynamic URL for the thumbnail
+    
+            // Prepare the HTML structure for the 3D model viewer
+            $model_viewer = '<div data-thumb="' . esc_url($model_thumbnail_url) . '" ';
+            $model_viewer .= 'data-thumb-alt="3D Model" ';
+            $model_viewer .= 'data-thumb-srcset="' . esc_url($model_thumbnail_url) . ' 100w" ';
+            $model_viewer .= 'data-thumb-sizes="(max-width: 100px) 100vw, 100px" ';
+            $model_viewer .= 'class="polymuse-model-viewer" >';
+            $model_viewer .= '<model-viewer src="' . esc_url($model_url) . '" alt="3D model" auto-rotate camera-controls ar ar-modes="webxr scene-viewer quick-look" style="width: 100%; height: 100%;"></model-viewer>';
+            $model_viewer .= '</div>';
+            
+            // Start output buffering for custom content
+            ob_start();
+            echo $model_viewer;
+            // Capture the output
+            $custom_content = ob_get_clean();
+    
+            // Append the custom content after the original product content
+            $content .= $custom_content;
         }
-
+    
         return $content;
     }
     add_filter('the_content', 'polymuse_modify_single_product_template', 20);
-
+    
 
     // Enqueue styles and scripts
     function polymuse_enqueue_assets()
