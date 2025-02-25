@@ -28,12 +28,12 @@ if (in_array('bigcommerce/bigcommerce.php', apply_filters('active_plugins', get_
     function polymuse_modify_single_product_template($content) {
         // Only run on BigCommerce product page
         if (is_product()) {
-            // Get the model URL (you can dynamically fetch this based on product data)
+            // Get the model URL dynamically (can be replaced with the actual dynamic data)
             $model_url = "https://firebasestorage.googleapis.com/v0/b/polymuse-68692.appspot.com/o/models%2F20250205124059197%2FSheenChair.glb?alt=media&token=19402c2b-bb92-499e-83bf-d49c263bb09c";
             
-            // Get the model thumbnail URL (adjust accordingly)
-            $model_thumbnail_url = "https://example.com/thumbnail.jpg"; // Replace this with the dynamic URL for the thumbnail
-    
+            // Get the model thumbnail URL dynamically (adjust as necessary)
+            $model_thumbnail_url = " https://yiteg94znhby2sle.public.blob.vercel-storage.com/www.google.com-ZjBvSos6qNeXxXTmKQtoj50Owjx49O.png"; // Replace with actual thumbnail URL
+        
             // Prepare the HTML structure for the 3D model viewer
             $model_viewer = '<div data-thumb="' . esc_url($model_thumbnail_url) . '" ';
             $model_viewer .= 'data-thumb-alt="3D Model" ';
@@ -48,14 +48,15 @@ if (in_array('bigcommerce/bigcommerce.php', apply_filters('active_plugins', get_
             echo $model_viewer;
             // Capture the output
             $custom_content = ob_get_clean();
-    
-            // Append the custom content after the original product content
-            $content .= $custom_content;
+        
+            // Append the custom content after the product description
+            $content .= '<section class="bc-single-product__description"><h4 class="bc-single-product__section-title">3D Model</h4>' . $custom_content . '</section>';
         }
-    
+        
         return $content;
     }
     add_filter('the_content', 'polymuse_modify_single_product_template', 20);
+    
     
 
     // Enqueue styles and scripts
