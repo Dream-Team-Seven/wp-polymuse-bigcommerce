@@ -41,7 +41,8 @@ if (in_array('bigcommerce/bigcommerce.php', apply_filters('active_plugins', get_
         error_log('polymuse_modify_single_product_template called html : ' . $html);
         return $html;
     }
-  
+    add_filter('bigcommerce/template/product/single', 'polymuse_modify_single_product_template', 10, 2);
+    
     function add_buttons_container()
     {
         global $product;
