@@ -25,37 +25,30 @@ if (in_array('bigcommerce/bigcommerce.php', apply_filters('active_plugins', get_
     }
     add_action('wp_head', 'polymuse_add_model_viewer_script');
 
-    // Add 3D model to product gallery
-    // Modify the BigCommerce product page template to append a 3D model viewer without overwriting existing content
-    function polymuse_modify_single_product_template($html, $product_id)
-    {
-        global $product;
+    function polymuse_modify_single_product_template($content) {
+        // Only run on BigCommerce product page
+        if (is_product()) {
+            // Get the model URL (you can dynamically fetch this based on product data)
+            $model_url = "https://firebasestorage.googleapis.com/v0/b/polymuse-68692.appspot.com/o/models%2F20250205124059197%2FSheenChair.glb?alt=media&token=19402c2b-bb92-499e-83bf-d49c263bb09c";
+            
+            // Start output buffering for custom content
+            ob_start();
+            ?>
+            <div class="polymuse-custom-div">
+                <h1>Check out this awesome 3D model!</h1>
+                <model-viewer src="<?php echo esc_url($model_url); ?>" alt="3D Model" auto-rotate camera-controls style="width: 100%; height: 500px;"></model-viewer>
+            </div>
+            <?php
+            // Capture the output
+            $custom_content = ob_get_clean();
 
-        // Get the 3D model URL
-        $model_url = "https://firebasestorage.googleapis.com/v0/b/polymuse-68692.appspot.com/o/models%2F20250205124059197%2FSheenChair.glb?alt=media&token=19402c2b-bb92-499e-83bf-d49c263bb09c";
+            // Append the custom content after the original product content
+            $content .= $custom_content;
+        }
 
-        // Start output buffering to capture the additional content
-        ob_start();
-        ?>
-        <!-- Custom 3D Model Viewer -->
-        <div class="polymuse-custom-div">
-            <h1>Hey, look at this 3D model!</h1>
-            <model-viewer src="<?php echo esc_url($model_url); ?>" alt="3D Model" auto-rotate camera-controls
-                style="width: 100%; height: 500px;"></model-viewer>
-        </div>
-        <?php
-        // Get the generated content
-        $custom_content = ob_get_clean();
-
-        // Append the custom content to the original product page HTML
-        $html .= $custom_content;
-
-        // Log for debugging (optional)
-        error_log('polymuse_modify_single_product_template: ' . $html);
-
-        return $html;
+        return $content;
     }
-    add_filter('bigcommerce/template/product/single', 'polymuse_modify_single_product_template', 10, 2);
+    add_filter('the_content', 'polymuse_modify_single_product_template', 20);
 
     // Enqueue styles and scripts
     function polymuse_enqueue_assets()
