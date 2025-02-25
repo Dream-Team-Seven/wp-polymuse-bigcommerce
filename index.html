@@ -13,15 +13,15 @@
                     <!-- class="swiper-wrapper" is required -->
                     <div class="swiper-wrapper" data-js="" style="transition-duration: 0ms;">
                         <!-- class="swiper-slide" is required -->
-                        <div class="swiper-slide bc-product-gallery__image-slide swiper-slide-prev" data-index="0"
-                            style="width: 357px; opacity: 0; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;">
+                        <div class="swiper-slide bc-product-gallery__image-slide swiper-slide-active" data-index="0"
+                            style="width: 357px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;">
                             <img src="http://96.51.136.132/wp-content/uploads/2025/02/chair1__99453.1740431862.1280.1280.jpg"
                                 alt=""
                                 srcset="http://96.51.136.132/wp-content/uploads/2025/02/chair1__99453.1740431862.1280.1280.jpg 273w, http://96.51.136.132/wp-content/uploads/2025/02/chair1__99453.1740431862.1280.1280-150x150.jpg 150w, http://96.51.136.132/wp-content/uploads/2025/02/chair1__99453.1740431862.1280.1280-86x86.jpg 86w, http://96.51.136.132/wp-content/uploads/2025/02/chair1__99453.1740431862.1280.1280-167x167.jpg 167w">
                         </div>
                         <!-- class="swiper-slide" is required -->
-                        <div class="swiper-slide bc-product-gallery__image-slide swiper-slide-active" data-index="1"
-                            style="width: 357px; opacity: 1; transform: translate3d(-357px, 0px, 0px); transition-duration: 0ms;">
+                        <div class="swiper-slide bc-product-gallery__image-slide swiper-slide-next" data-index="1"
+                            style="width: 357px; opacity: 0; transform: translate3d(-357px, 0px, 0px); transition-duration: 0ms;">
                             <img src="http://96.51.136.132/wp-content/uploads/2025/02/chair2__76330.1740445693.1280.1280.jpg"
                                 alt=""
                                 srcset="http://96.51.136.132/wp-content/uploads/2025/02/chair2__76330.1740445693.1280.1280.jpg 271w, http://96.51.136.132/wp-content/uploads/2025/02/chair2__76330.1740445693.1280.1280-150x150.jpg 150w, http://96.51.136.132/wp-content/uploads/2025/02/chair2__76330.1740445693.1280.1280-86x86.jpg 86w, http://96.51.136.132/wp-content/uploads/2025/02/chair2__76330.1740445693.1280.1280-167x167.jpg 167w">
@@ -35,15 +35,15 @@
 
                     <!-- class="swiper-wrapper" is required -->
                     <div class="swiper-wrapper bc-product-gallery__thumbs"
-                        style="transition-duration: 300ms; transform: translate3d(44.7741px, 0px, 0px);">
+                        style="transition-duration: 300ms; transform: translate3d(133.925px, 0px, 0px);">
                         <!-- class="swiper-slide" and data-js="bc-gallery-thumb-trigger" are required -->
-                        <button class="bc-product-gallery__thumb-slide swiper-slide swiper-slide-prev"
+                        <button class="bc-product-gallery__thumb-slide swiper-slide swiper-slide-active"
                             data-js="bc-gallery-thumb-trigger" data-index="0" aria-label="mark as featured image">
                             <img src="http://96.51.136.132/wp-content/uploads/2025/02/chair1__99453.1740431862.1280.1280-86x86.jpg"
                                 alt="">
                         </button>
                         <!-- class="swiper-slide" and data-js="bc-gallery-thumb-trigger" are required -->
-                        <button class="bc-product-gallery__thumb-slide swiper-slide swiper-slide-active"
+                        <button class="bc-product-gallery__thumb-slide swiper-slide swiper-slide-next"
                             data-js="bc-gallery-thumb-trigger" data-index="1" aria-label="mark as featured image">
                             <img src="http://96.51.136.132/wp-content/uploads/2025/02/chair2__76330.1740445693.1280.1280-86x86.jpg"
                                 alt="">
@@ -194,17 +194,14 @@
 
         <div class="bc-product__description">
             <p>Chair for sitting</p>
-            <section class="bc-single-product__description">
-                <h4 class="bc-single-product__section-title">3D Model</h4>
-                <div data-thumb="https://yiteg94znhby2sle.public.blob.vercel-storage.com/www.google.com-ZjBvSos6qNeXxXTmKQtoj50Owjx49O.png"
-                    data-thumb-alt="3D Model"
-                    data-thumb-srcset="https://yiteg94znhby2sle.public.blob.vercel-storage.com/www.google.com-ZjBvSos6qNeXxXTmKQtoj50Owjx49O.png 100w"
-                    data-thumb-sizes="(max-width: 100px) 100vw, 100px" class="polymuse-model-viewer"
-                    style="height: 500px;"><model-viewer
-                        src="https://firebasestorage.googleapis.com/v0/b/polymuse-68692.appspot.com/o/models%2F20250205124059197%2FSheenChair.glb?alt=media&amp;token=19402c2b-bb92-499e-83bf-d49c263bb09c"
-                        alt="3D model" auto-rotate="" camera-controls="" ar="" ar-modes="webxr scene-viewer quick-look"
-                        style="width: 100%; height: 100%;" ar-status="not-presenting"></model-viewer></div>
-            </section>
+            <div data-thumb="https://example.com/thumbnail.jpg" data-thumb-alt="3D Model"
+                data-thumb-srcset="https://example.com/thumbnail.jpg 100w"
+                data-thumb-sizes="(max-width: 100px) 100vw, 100px" class="polymuse-model-viewer" style="height: 500px;">
+                <model-viewer
+                    src="https://firebasestorage.googleapis.com/v0/b/polymuse-68692.appspot.com/o/models%2F20250205124059197%2FSheenChair.glb?alt=media&amp;token=19402c2b-bb92-499e-83bf-d49c263bb09c"
+                    alt="3D model" auto-rotate="" camera-controls="" ar="" ar-modes="webxr scene-viewer quick-look"
+                    style="width: 100%; height: 100%;" ar-status="not-presenting"></model-viewer>
+            </div>
         </div>
     </section>
 

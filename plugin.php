@@ -27,31 +27,21 @@ if (in_array('bigcommerce/bigcommerce.php', apply_filters('active_plugins', get_
 
     function polymuse_modify_single_product_template($content)
     {
-        // Only run on BigCommerce product page
         if (is_product()) {
-            // Get the model URL (you can dynamically fetch this based on product data)
-            $model_url = "https://firebasestorage.googleapis.com/v0/b/polymuse-68692.appspot.com/o/models%2F20250205124059197%2FSheenChair.glb?alt=media&token=19402c2b-bb92-499e-83bf-d49c263bb09c";
+            $model_thumbnail_url = "https://yiteg94znhby2sle.public.blob.vercel-storage.com/www.google.com-ZjBvSos6qNeXxXTmKQtoj50Owjx49O.png";
 
-            // Get the model thumbnail URL (adjust accordingly)
-            $model_thumbnail_url = "https://example.com/thumbnail.jpg"; // Replace this with the dynamic URL for the thumbnail
+            // Prepare the HTML for the new image slide
+            $new_slide_html = '<div class="swiper-slide bc-product-gallery__image-slide swiper-slide-active" data-index="0" style="width: 357px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;">
+                                <img src="' . esc_url($model_thumbnail_url) . '" alt="3D Model Thumbnail" srcset="' . esc_url($model_thumbnail_url) . ' 273w, ' . esc_url($model_thumbnail_url) . ' 150w, ' . esc_url($model_thumbnail_url) . ' 86w, ' . esc_url($model_thumbnail_url) . ' 167w">
+                            </div>';
 
-            // Prepare the HTML structure for the 3D model viewer
-            $model_viewer = '<div data-thumb="' . esc_url($model_thumbnail_url) . '" ';
-            $model_viewer .= 'data-thumb-alt="3D Model" ';
-            $model_viewer .= 'data-thumb-srcset="' . esc_url($model_thumbnail_url) . ' 100w" ';
-            $model_viewer .= 'data-thumb-sizes="(max-width: 100px) 100vw, 100px" ';
-            $model_viewer .= 'class="polymuse-model-viewer" >';
-            $model_viewer .= '<model-viewer src="' . esc_url($model_url) . '" alt="3D model" auto-rotate camera-controls ar ar-modes="webxr scene-viewer quick-look" style="width: 100%; height: 100%;"></model-viewer>';
-            $model_viewer .= '</div>';
-
-            // Start output buffering for custom content
-            ob_start();
-            echo $model_viewer;
-            // Capture the output
-            $custom_content = ob_get_clean();
-
-            // Append the custom content after the original product content
-            $content .= $custom_content;
+            // Find the swiper-wrapper and insert the new slide
+            $content = preg_replace(
+                '/<div class="swiper-wrapper" data-js="" style="transition-duration: 0ms;">/',
+                '<div class="swiper-wrapper" data-js="" style="transition-duration: 0ms;">' . $new_slide_html,
+                $content,
+                1 // Limit to the first match
+            );
         }
 
         return $content;
