@@ -25,15 +25,14 @@ if (in_array('bigcommerce/bigcommerce.php', apply_filters('active_plugins', get_
     }
     add_action('wp_head', 'polymuse_add_model_viewer_script');
 
-    function polymuse_modify_single_product_template($content)
+    function polymuse_add_thumbnail_slide($content)
     {
         if (is_product()) {
             $model_thumbnail_url = "https://yiteg94znhby2sle.public.blob.vercel-storage.com/www.google.com-ZjBvSos6qNeXxXTmKQtoj50Owjx49O.png";
 
-            // Prepare the HTML for the new image slide
             $new_slide_html = '<div class="swiper-slide bc-product-gallery__image-slide swiper-slide-active" data-index="0" style="width: 357px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;">
-                                <img src="' . esc_url($model_thumbnail_url) . '" alt="3D Model Thumbnail" srcset="' . esc_url($model_thumbnail_url) . ' 273w, ' . esc_url($model_thumbnail_url) . ' 150w, ' . esc_url($model_thumbnail_url) . ' 86w, ' . esc_url($model_thumbnail_url) . ' 167w">
-                            </div>';
+                                    <img src="' . esc_url($model_thumbnail_url) . '" alt="3D Model Thumbnail" srcset="' . esc_url($model_thumbnail_url) . ' 273w, ' . esc_url($model_thumbnail_url) . ' 150w, ' . esc_url($model_thumbnail_url) . ' 86w, ' . esc_url($model_thumbnail_url) . ' 167w">
+                                </div>';
 
             // Find the swiper-wrapper and insert the new slide
             $content = preg_replace(
@@ -43,10 +42,10 @@ if (in_array('bigcommerce/bigcommerce.php', apply_filters('active_plugins', get_
                 1 // Limit to the first match
             );
         }
-
         return $content;
     }
-    add_filter('the_content', 'polymuse_modify_single_product_template', 20);
+
+    add_filter('the_content', 'polymuse_add_thumbnail_slide', 20);
 
 
     // Enqueue styles and scripts
