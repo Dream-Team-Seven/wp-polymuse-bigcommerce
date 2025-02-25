@@ -32,12 +32,14 @@ if (in_array('bigcommerce/bigcommerce.php', apply_filters('active_plugins', get_
         // Add 3D model viewer code here
         $model_url = "https://firebasestorage.googleapis.com/v0/b/polymuse-68692.appspot.com/o/models%2F20250205124059197%2FSheenChair.glb?alt=media&token=19402c2b-bb92-499e-83bf-d49c263bb09c";
         $model_thumbnail_url = plugins_url('3d-model-thumbnail.png', __FILE__);
-        ?>
+
+        ob_start(); ?>
         <div class="polymuse-custom-div">
             <h1>hey look at me</h1>
         </div>
         <?php
-        $html .= ob_get_clean();
+        $custom_html = ob_get_clean();
+        $html .= $custom_html;
         error_log('polymuse_modify_single_product_template called html : ' . $html);
         return $html;
     }
