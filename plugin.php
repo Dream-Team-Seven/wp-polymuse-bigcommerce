@@ -38,8 +38,10 @@ if (in_array('bigcommerce/bigcommerce.php', apply_filters('active_plugins', get_
         </div>
         <?php
         $html = ob_get_clean() . $html;
+        error_log('polymuse_modify_single_product_template called html : ' . $html);
         return $html;
     }
+  
     function add_buttons_container()
     {
         global $product;
